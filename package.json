@@ -1,0 +1,24 @@
+{
+  "name": "switcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "build": "yarn copy-files",
+    "watch": "tsc -w",
+    "dev": "nodemon --exec 'yarn build && node dist/index.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^3.0.2"
+  }
+}
