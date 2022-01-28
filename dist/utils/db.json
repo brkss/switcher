@@ -2,6 +2,6 @@
     {
         "name": "Bowl",
         "file": "bowl.sql",
-        "in_use": false
+        "in_use": true
     }
 ]

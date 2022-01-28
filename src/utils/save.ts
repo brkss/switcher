@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { exec } from "child_process";
 import fs from "fs";
 import db from "./db.json";
 import path from "path";
@@ -8,6 +8,10 @@ interface IDatabase {
   file: string;
   in_use: boolean;
 }
+
+const dockerSaveDb = (path: string) => {
+  return `docker exec server_db_1 /usr/bin/mysqldump -u root --password=123 opium > ${path}`;
+};
 
 export const save = async () => {
   /*
@@ -19,11 +23,18 @@ export const save = async () => {
     console.log("err => ", e);
   });
   */
+
+  const data: IDatabase[] = db;
   fs.readdir(path.join(__dirname, "databases"), (err, files) => {
     console.log("error listing files => ", err);
     console.log("list dir data => ", files);
+    data.map((database) => {
+      if (database.in_use) {
+        exec(dockerSaveDb(`./databases/${database.name}`), (err) => {
+          if (err) console.log("SOMETHING WENT WRONG => ", err);
+        });
+      }
+    });
   });
-  const data: IDatabase[] = db;
-  data.map((database) => {});
   console.log("dbs => ", db);
 };
