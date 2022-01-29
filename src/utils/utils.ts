@@ -50,3 +50,7 @@ export const change = async (file: string) => {
     }
   }
 };
+
+export const list = () => {
+  return db;
+};

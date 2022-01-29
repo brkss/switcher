@@ -6,14 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
-const save_1 = require("./utils/save");
+const utils_1 = require("./utils/utils");
 (async () => {
     const app = express_1.default();
     app.get("/", (_, res) => {
         res.sendFile(path_1.default.join(__dirname, "/pages/index.html"));
     });
+    app.get("/list", (_, res) => {
+        res.json(utils_1.list());
+    });
     app.post("/save", async (_, res) => {
-        await save_1.save();
+        await utils_1.save();
         res.json({
             status: true,
         });

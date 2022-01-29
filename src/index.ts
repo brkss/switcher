@@ -1,13 +1,17 @@
 import "dotenv/config";
 import express from "express";
 import path from "path";
-import { save } from "./utils/save";
+import { save, list } from "./utils/utils";
 
 (async () => {
   const app = express();
 
   app.get("/", (_, res) => {
     res.sendFile(path.join(__dirname, "/pages/index.html"));
+  });
+
+  app.get("/list", (_, res) => {
+    res.json(list());
   });
 
   app.post("/save", async (_, res) => {
