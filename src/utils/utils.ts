@@ -14,7 +14,19 @@ const dockerSaveDB = (path: string) => {
 };
 
 const dockerRestoreDB = (path: string) => {
-  return `cat ${path} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${process.env.ROOT_PASSWORD} DATABASE`;
+  console.log("PATH : ", path);
+  return `cat ${path} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${process.env.ROOT_PASSWORD} opium`;
+};
+
+const dockerDropTables = () => {
+  return `
+    cat ${path.join(
+      __dirname,
+      "databases/drop.sql"
+    )} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${
+    process.env.ROOT_PASSWORD
+  } opium
+  `;
 };
 
 export const save = async () => {
@@ -41,6 +53,10 @@ export const change = async (file: string) => {
   await save();
   for (let d of data) {
     if (d.file == file) {
+      console.log("found file !");
+      exec(dockerDropTables(), (err) => {
+        console.log("execute dropping tables went wrong e => ", err);
+      });
       exec(
         dockerRestoreDB(path.join(__dirname, `databases/${file}`)),
         (err) => {

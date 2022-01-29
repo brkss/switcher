@@ -12,7 +12,13 @@ const dockerSaveDB = (path) => {
     return `docker exec server_db_1 /usr/bin/mysqldump -u root --password=${process.env.ROOT_PASSWORD} opium > ${path}`;
 };
 const dockerRestoreDB = (path) => {
-    return `cat ${path} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${process.env.ROOT_PASSWORD} DATABASE`;
+    console.log("PATH : ", path);
+    return `cat ${path} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${process.env.ROOT_PASSWORD} opium`;
+};
+const dockerDropTables = () => {
+    return `
+    cat ${path_1.default.join(__dirname, "databases/drop.sql")} | docker exec -i server_db_1 /usr/bin/mysql -u root --password=${process.env.ROOT_PASSWORD} opium
+  `;
 };
 const save = async () => {
     const data = db_json_1.default;
@@ -36,6 +42,10 @@ const change = async (file) => {
     await exports.save();
     for (let d of data) {
         if (d.file == file) {
+            console.log("found file !");
+            child_process_1.exec(dockerDropTables(), (err) => {
+                console.log("execute dropping tables went wrong e => ", err);
+            });
             child_process_1.exec(dockerRestoreDB(path_1.default.join(__dirname, `databases/${file}`)), (err) => {
                 console.log("Error accured while restaurng database => ", err);
             });

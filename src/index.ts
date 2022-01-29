@@ -1,10 +1,14 @@
 import "dotenv/config";
 import express from "express";
 import path from "path";
-import { save, list } from "./utils/utils";
+import { save, list, change } from "./utils/utils";
+import bodyParser from "body-parser";
 
 (async () => {
   const app = express();
+
+  app.use(bodyParser.urlencoded());
+  app.use(bodyParser.json());
 
   app.get("/", (_, res) => {
     res.sendFile(path.join(__dirname, "/pages/index.html"));
@@ -12,6 +16,14 @@ import { save, list } from "./utils/utils";
 
   app.get("/list", (_, res) => {
     res.json(list());
+  });
+
+  app.post("/change", async (req, res) => {
+    console.log("data => ", req.body.file);
+    await change(req.body.file);
+    res.send({
+      status: true,
+    });
   });
 
   app.post("/save", async (_, res) => {

@@ -1,5 +1,10 @@
 [
     {
+        "name": "Empty Database",
+        "file": "empty.sql",
+        "in_use": false
+    },
+    {
         "name": "Bowl",
         "file": "bowl.sql",
         "in_use": true
