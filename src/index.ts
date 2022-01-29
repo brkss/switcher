@@ -4,7 +4,6 @@ import path from "path";
 import { save } from "./utils/save";
 
 (async () => {
-  console.log("Momentum !");
   const app = express();
 
   app.get("/", (_, res) => {

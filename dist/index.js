@@ -8,7 +8,6 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const save_1 = require("./utils/save");
 (async () => {
-    console.log("Momentum !");
     const app = express_1.default();
     app.get("/", (_, res) => {
         res.sendFile(path_1.default.join(__dirname, "/pages/index.html"));
