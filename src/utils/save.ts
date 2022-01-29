@@ -30,9 +30,12 @@ export const save = async () => {
     console.log("list dir data => ", files);
     data.map((database) => {
       if (database.in_use) {
-        exec(dockerSaveDb(`./databases/${database.name}`), (err) => {
-          if (err) console.log("SOMETHING WENT WRONG => ", err);
-        });
+        exec(
+          dockerSaveDb(path.join(__dirname, `databases/${database.file}`)),
+          (err) => {
+            if (err) console.log("SOMETHING WENT WRONG => ", err);
+          }
+        );
       }
     });
   });

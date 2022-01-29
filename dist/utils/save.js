@@ -18,7 +18,7 @@ const save = async () => {
         console.log("list dir data => ", files);
         data.map((database) => {
             if (database.in_use) {
-                child_process_1.exec(dockerSaveDb(`./databases/${database.name}`), (err) => {
+                child_process_1.exec(dockerSaveDb(path_1.default.join(__dirname, `databases/${database.file}`)), (err) => {
                     if (err)
                         console.log("SOMETHING WENT WRONG => ", err);
                 });
